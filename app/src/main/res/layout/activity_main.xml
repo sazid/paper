@@ -9,8 +9,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.mohammedsazid.android.paper.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
+
+        <EditText
+            android:id="@+id/editor_content_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:allowUndo="true"
+            android:background="@android:color/transparent"
+            android:bufferType="editable"
+            android:cursorVisible="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="start"
+            android:hint="Write down your thoughts, to-dos, notes and anything else you have on your mind here."
+            android:inputType="text|textCapSentences|textAutoCorrect|textMultiLine"
+            android:singleLine="false" />
+
+    </ScrollView>
+
 </RelativeLayout>
