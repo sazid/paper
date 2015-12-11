@@ -15,7 +15,7 @@
         tools:ignore="UselessParent">
 
         <EditText
-            android:id="@+id/editor_content_et"
+            android:id="@+id/paper_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:allowUndo="true"
