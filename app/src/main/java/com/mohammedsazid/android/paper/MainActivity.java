@@ -7,12 +7,15 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String PAPER_CONTENT_KEY = "paper_content_key";
+    private static boolean mContentEdited = false;
     private String mPaperContent = "";
     private EditText mPaperEditText;
 
@@ -21,6 +24,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bindViews();
+
+        mPaperEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mContentEdited = true;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        ReadPaperTask readPaperTask = new ReadPaperTask();
+        readPaperTask.execute();
     }
 
     private void bindViews() {
@@ -28,19 +51,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        ReadPaperTask readPaperTask = new ReadPaperTask();
-        readPaperTask.execute();
-    }
+    public void onBackPressed() {
+        if (mContentEdited) {
+            if (mPaperEditText != null)
+                mPaperContent = mPaperEditText.getText().toString();
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mPaperEditText != null)
-            mPaperContent = mPaperEditText.getText().toString();
-        SavePaperTask savePaperTask = new SavePaperTask();
-        savePaperTask.execute(mPaperContent);
+            SavePaperTask savePaperTask = new SavePaperTask();
+            savePaperTask.execute(mPaperContent);
+        }
     }
 
     class SavePaperTask extends AsyncTask<String, Void, Void> {
@@ -55,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
             if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
             }
+
+            MainActivity.super.onBackPressed();
         }
 
         @Override
