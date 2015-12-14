@@ -15,7 +15,7 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
 
     public static final String PAPER_CONTENT_KEY = "paper_content_key";
-    private static boolean mContentEdited = false;
+    private boolean mContentEdited;
     private String mPaperContent = "";
     private EditText mPaperEditText;
 
@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bindViews();
+        mContentEdited = false;
 
         mPaperEditText.addTextChangedListener(new TextWatcher() {
             @Override
